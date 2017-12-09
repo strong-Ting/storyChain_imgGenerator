@@ -1,0 +1,7 @@
+*.swp
+*.swn
+*.swo
+*.un~
+node_modules/
+package-lock.json
+generate/*
