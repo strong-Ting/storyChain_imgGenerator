@@ -5,7 +5,9 @@ var fs = require('fs'),
 
 let font_ch = './font/NotoSansCJKtc-Medium.otf';
 let font_en = './font/OCRAEXT.TTF';
+
 const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_language,processing=null)=>{
+
 	let font = '';
 	if(font_language == 'ch'){
 		font = font_ch;
@@ -14,35 +16,35 @@ const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_l
 		font = font_en;
 	}
 
-		gm(pic_import)
-		.font(font)
-		.fill('#ffffff') 
-		.fontSize(font_size)
-		.drawText(position.x,position.y,text)
-		.write(pic_export,(e)=>{
-			console.log('write'+e);
-			if (processing!=null){
-				processing();
-			}
-		})
+	gm(pic_import)
+	.font(font)
+	.fill('#ffffff') 
+	.fontSize(font_size)
+	.drawText(position.x,position.y,text)
+	.write(pic_export,(e)=>{
+		if(e){
+			console.log('write:'+e);
+		}
+		if (processing!=null){
+			processing();
+		}
+	})
+
 };
 
 const append=(pic_import,append_pic,processing=null)=>{
-//		console.log(pic_import);
-		gm(pic_import)
-		.append(append_pic)
-		.write(pic_import,(e)=>{
-			console.log('append'+e);
-			if(!e){
-	//			console.log('done');
-			}
-			else if(e){
 
-			}
-			if(processing!=null){
-				processing();
-			}
-		})
+	gm(pic_import)
+	.append(append_pic)
+	.write(pic_import,(e)=>{
+		if(e){
+			console.log('append:'+e);
+		}
+		if(processing!=null){
+			processing();
+		}
+	})
+
 };
 	
 
@@ -62,10 +64,7 @@ module.exports = function result(info){
 			if(err) console.log(err);
 		})
 	}
-
-
-	let list = ['./img/botton.png','./img/center.png','./img/top.png'];
-
+	//title_gen=>post=>append_all
 	const title_gen = ()=>{
 		write('./img/top.png',title,pic_export,{x:125,y:80},56,'ch',()=>{
 			write(pic_export,hash,pic_export,{x:55,y:120},24,'en',()=>{
@@ -75,6 +74,7 @@ module.exports = function result(info){
 			});
 		});
 	}
+
 	title_gen();
 
 	const post = ()=>{
@@ -101,7 +101,6 @@ module.exports = function result(info){
 				append(pic_export+'_post'+0,pic_post,()=>{
 					post_appned(i);
 					fs.unlink(pic_post,()=>{
-//						console.log('rm_file:'+pic_post);
 					})
 
 				})
@@ -114,11 +113,12 @@ module.exports = function result(info){
 		append(pic_export,pic_export+'_post0',()=>{
 			append(pic_export,'./img/botton.png',()=>{
 				fs.unlink(pic_export+'_post0',()=>{
-//					console.log('rm_file:'+pic_export+'_post0');
+					console.log('done');
 				})
 			});
 		})
 	};
+
 }
 
 
