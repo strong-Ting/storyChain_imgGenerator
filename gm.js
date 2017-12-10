@@ -1,5 +1,6 @@
-var fs = require('fs')
-  , gm = require('gm').subClass({imageMagick: true});
+var fs = require('fs'),
+	path = require('path'),
+	gm = require('gm').subClass({imageMagick: true});
 
 
 let font_ch = './font/NotoSansCJKtc-Medium.otf';
@@ -19,7 +20,7 @@ const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_l
 		.fontSize(font_size)
 		.drawText(position.x,position.y,text)
 		.write(pic_export,(e)=>{
-	//		console.log('write'+e);
+			console.log('write'+e);
 			if (processing!=null){
 				processing();
 			}
@@ -31,9 +32,12 @@ const append=(pic_import,append_pic,processing=null)=>{
 		gm(pic_import)
 		.append(append_pic)
 		.write(pic_import,(e)=>{
-//			console.log('append'+e);
+			console.log('append'+e);
 			if(!e){
 	//			console.log('done');
+			}
+			else if(e){
+
 			}
 			if(processing!=null){
 				processing();
@@ -50,7 +54,16 @@ module.exports = function result(info){
 		author = info.author,
 		text = info.text,
 	 	pic_export = info.pic_export;
-	
+
+	let pic_path = path.dirname(pic_export);
+
+	if(fs.existsSync(pic_path)== false){
+		fs.mkdir(pic_path, function(err){
+			if(err) console.log(err);
+		})
+	}
+
+
 	let list = ['./img/botton.png','./img/center.png','./img/top.png'];
 
 	const title_gen = ()=>{
@@ -88,7 +101,7 @@ module.exports = function result(info){
 				append(pic_export+'_post'+0,pic_post,()=>{
 					post_appned(i);
 					fs.unlink(pic_post,()=>{
-						console.log('rm_file:'+pic_post);
+//						console.log('rm_file:'+pic_post);
 					})
 
 				})
@@ -101,7 +114,7 @@ module.exports = function result(info){
 		append(pic_export,pic_export+'_post0',()=>{
 			append(pic_export,'./img/botton.png',()=>{
 				fs.unlink(pic_export+'_post0',()=>{
-					console.log('rm_file:'+pic_export+'_post0');
+//					console.log('rm_file:'+pic_export+'_post0');
 				})
 			});
 		})
