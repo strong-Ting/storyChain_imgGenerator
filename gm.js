@@ -49,7 +49,7 @@ const append=(pic_import,append_pic,processing=null)=>{
 	
 
 
-module.exports = function result(info){
+module.exports = function result(info,callback){
 
 	let title = info.title,
 		hash = info.hash,
@@ -114,6 +114,9 @@ module.exports = function result(info){
 			append(pic_export,'./img/botton.png',()=>{
 				fs.unlink(pic_export+'_post0',()=>{
 					console.log('done');
+					if(callback!=null){
+						callback();
+					}
 				})
 			});
 		})

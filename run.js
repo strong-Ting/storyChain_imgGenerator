@@ -7,5 +7,8 @@ let json_test ={
 	'pic_export':'./output/0.png'
 }
 
-result(json_test);
+const callback = ()=>{
+	console.log('callback back');
+}
+result(json_test,callback);
 
