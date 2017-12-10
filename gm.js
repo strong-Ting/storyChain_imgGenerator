@@ -1,8 +1,17 @@
 var fs = require('fs')
   , gm = require('gm').subClass({imageMagick: true});
 
-let font = './font/微軟正黑體.ttf';
-const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,processing=null)=>{
+let font_ch = './font/NotoSansCJKtc-Medium.otf';
+let font_en = './font/OCRAEXT.TTF';
+const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_language,processing=null)=>{
+	let font = '';
+	if(font_language == 'ch'){
+		font = font_ch;
+	}
+	else if(font_language=='en'){
+		font = font_en;
+	}
+
 		gm(pic_import)
 		.font(font)
 		.fill('#ffffff') 
@@ -37,9 +46,9 @@ function result(title,hash,author,text,pic_export){
 	let list = ['./img/botton.png','./img/center.png','./img/top.png'];
 
 	const title_gen = ()=>{
-		write('./img/top.png',title,pic_export,{x:125,y:80},56,()=>{
-			write(pic_export,hash,pic_export,{x:55,y:120},24,()=>{
-				write(pic_export,'塊作者:'+author,pic_export,{x:800,y:80},48,()=>{
+		write('./img/top.png',title,pic_export,{x:125,y:80},56,'ch',()=>{
+			write(pic_export,hash,pic_export,{x:55,y:120},24,'en',()=>{
+				write(pic_export,'塊作者:'+author,pic_export,{x:800,y:80},48,'ch',()=>{
 					post();
 				});
 			});
@@ -52,12 +61,12 @@ function result(title,hash,author,text,pic_export){
 		for(let i=0;i<text.length;i++){
 			let pic_post = pic_export+'_post' + i;
 			if(i==text.length-1){
-				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,()=>{
+				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch',()=>{
 					post_appned();
 				});
 			}
 			else{
-				write('./img/center.png',text[i],pic_post,{x:55,y:85},72);
+				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch');
 			}
 		}
 
@@ -92,8 +101,8 @@ function result(title,hash,author,text,pic_export){
 }
 
 let title =  "測試測試";
-let text = '因為你沒有朋友要對你搔癢\n所以你自己想像自己很癢\n神奇的第3行';
-let author = '歐拉歐拉';
+let text = '因為你沒有朋友嘻嘻\n所以你自己想像有朋友\n神奇的第三行';
+let author = '目達目達';
 let hash = '0x42ed4caa6826f98cb90c7b4596e428dc2c9a00f5';
 let pic_export ='./generate/0.png';
 
