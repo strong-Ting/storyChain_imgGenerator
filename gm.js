@@ -68,7 +68,7 @@ module.exports = function result(info,callback){
 	const title_gen = ()=>{
 		write('./img/top.png',title,pic_export,{x:125,y:80},56,'ch',null,()=>{
 			write(pic_export,hash,pic_export,{x:55,y:120},24,'en',null,()=>{
-				write(pic_export,'塊作者:'+author,pic_export,{x:10,y:20},48,'ch','NorthEast',()=>{
+				write(pic_export,'塊作者:'+author,pic_export,{x:24,y:20},48,'ch','NorthEast',()=>{
 					post();
 				});
 			});
@@ -113,7 +113,7 @@ module.exports = function result(info,callback){
 		append(pic_export,pic_export+'_post0',()=>{
 			append(pic_export,'./img/botton.png',()=>{
 				fs.unlink(pic_export+'_post0',()=>{
-					console.log('done');
+					console.log(pic_export+' done');
 					if(callback!=null){
 						callback();
 					}
