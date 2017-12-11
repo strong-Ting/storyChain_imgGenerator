@@ -6,7 +6,7 @@ var fs = require('fs'),
 let font_ch = './font/NotoSansCJKtc-Medium.otf';
 let font_en = './font/OCRAEXT.TTF';
 
-const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_language,processing=null)=>{
+const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_language,gravity=null,processing=null)=>{
 
 	let font = '';
 	if(font_language == 'ch'){
@@ -20,7 +20,7 @@ const write=(pic_import,text,pic_export,position={x:50,y:50},font_size=56,font_l
 	.font(font)
 	.fill('#ffffff') 
 	.fontSize(font_size)
-	.drawText(position.x,position.y,text)
+	.drawText(position.x,position.y,text,gravity)
 	.write(pic_export,(e)=>{
 		if(e){
 			console.log('write:'+e);
@@ -66,9 +66,9 @@ module.exports = function result(info,callback){
 	}
 	//title_gen=>post=>append_all
 	const title_gen = ()=>{
-		write('./img/top.png',title,pic_export,{x:125,y:80},56,'ch',()=>{
-			write(pic_export,hash,pic_export,{x:55,y:120},24,'en',()=>{
-				write(pic_export,'塊作者:'+author,pic_export,{x:700,y:80},48,'ch',()=>{
+		write('./img/top.png',title,pic_export,{x:125,y:80},56,'ch',null,()=>{
+			write(pic_export,hash,pic_export,{x:55,y:120},24,'en',null,()=>{
+				write(pic_export,'塊作者:'+author,pic_export,{x:10,y:20},48,'ch','NorthEast',()=>{
 					post();
 				});
 			});
@@ -82,12 +82,12 @@ module.exports = function result(info,callback){
 		for(let i=0;i<text.length;i++){
 			let pic_post = pic_export+'_post' + i;
 			if(i==text.length-1){
-				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch',()=>{
+				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch',null,()=>{
 					post_appned();
 				});
 			}
 			else{
-				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch');
+				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch',null);
 			}
 		}
 
