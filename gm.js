@@ -79,16 +79,29 @@ module.exports = function result(info,callback){
 
 	const post = ()=>{
 		text = text.split("\n");
+		let count_warp = 0;
 		for(let i=0;i<text.length;i++){
 			let pic_post = pic_export+'_post' + i;
-			if(i==text.length-1){
+			if(text[i]==''){
+				gm("./img/center.png").crop(1200, 36, 0, 0).write(pic_post,(e)=>{
+					if(e){
+						console.log('crop_error:'+e);
+					}
+					count_warp++;
+					if(count_warp == text.length){
+						post_appned();
+					}
+
+				})
+			}else{
 				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch',null,()=>{
-					post_appned();
+					count_warp++;
+					if(count_warp == text.length){
+						post_appned();
+					}
 				});
 			}
-			else{
-				write('./img/center.png',text[i],pic_post,{x:55,y:85},72,'ch',null);
-			}
+
 		}
 
 		const post_appned=(i=0)=>{
