@@ -65,8 +65,15 @@ module.exports = function result(info,callback){
 		})
 	}
 	//title_gen=>post=>append_all
+	let title_size = 56;
+	if(title.length>10){
+		title_size=42;
+	}
+	if(title.length>18){
+		title_size=30;
+	}
 	const title_gen = ()=>{
-		write('./img/top.png',title,pic_export,{x:125,y:80},56,'ch',null,()=>{
+		write('./img/top.png',title,pic_export,{x:125,y:80},title_size,'ch',null,()=>{
 			write(pic_export,hash,pic_export,{x:55,y:120},24,'en',null,()=>{
 				write(pic_export,'塊作者:'+author,pic_export,{x:24,y:20},48,'ch','NorthEast',()=>{
 					post();
